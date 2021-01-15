@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const fetch = require('node-fetch');
 require('dotenv').config();
 
-const port = 500;
+const port = process.env.PORT || 500;
 
 const app = express();
 app.use(helmet());
