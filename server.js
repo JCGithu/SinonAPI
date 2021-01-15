@@ -10,7 +10,7 @@ const port = 500;
 const app = express();
 app.use(helmet());
 app.use(morgan('tiny'));
-app.use(cors());
+//app.use(cors());
 app.use(express.json());
 
 const fetchSets = {
