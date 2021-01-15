@@ -5,45 +5,7 @@ const morgan = require('morgan');
 const fetch = require('node-fetch');
 require('dotenv').config();
 
-const fs = require('fs');
-const ytdl = require('ytdl-core');
-
-async function yt(ytURL) {
-  let info = await ytdl.getInfo(ytURL);
-  let output = {};
-  let i = 1;
-  for (const format in info.formats) {
-    var obj = info.formats[format];
-    let addInfo = '';
-    let endInfo = '';
-    if (!obj.hasAudio) {
-      addInfo = ' (Only video)';
-    }
-    if (!obj.hasVideo) {
-      addInfo = ' (Only audio)';
-    }
-    if (obj.isLive) {
-      obj.quality = 'livestream';
-    }
-    if (obj.qualityLabel == null) {
-      obj.qualityLabel = '';
-    }
-    if (obj.fps == undefined) {
-      obj.fps = '';
-    } else {
-      endInfo = `// ${obj.fps}p`;
-    }
-    if (obj.quality !== 'tiny') {
-      output[i] = {};
-      output[i].text = `${obj.quality}:${addInfo} ${obj.qualityLabel} ${obj.container} ${endInfo}`;
-      output[i].url = obj.url;
-    }
-    i++;
-    if (i > info.formats.length) {
-      return output;
-    }
-  }
-}
+const { yt } = require('./workers/youtube');
 
 const port = process.env.PORT || 500;
 
