@@ -41,9 +41,9 @@ app.get('/periscope/:token', cors(corsOptions), async (req, res) => {
     .then((json) => {
       console.log(json);
       if (json.hls_url) {
-        return { text='Live URL', url: json.hls_url };
+        return { text: 'Live URL', url: json.hls_url };
       } else {
-        return { text='Replay URL', url: json.replay_url };
+        return { text: 'Replay URL', url: json.replay_url };
       }
     });
   res.json(HLS);
