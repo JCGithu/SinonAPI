@@ -59,7 +59,7 @@ app.get('/parliament/:token', cors(corsOptions), async (req, res) => {
     .then((text) => {
       var regex = /[0-9A-Za-z\/\.\-\:]+.m3u8/g;
       var livestreamURL = text.match(regex)[0];
-      return livestreamURL;
+      return { text: 'Livestream URL', url: livestreamURL };
     });
   res.json(HLS);
 });

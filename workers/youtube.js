@@ -25,9 +25,11 @@ async function filter(i, obj, output) {
   }
   if (!obj.hasAudio) {
     addInfo = ' (Only video)';
+    output[i].onlyVideo = true;
   }
   if (!obj.hasVideo) {
     addInfo = ' (Only audio)';
+    output[i].onlyAudio = true;
   }
   if (obj.qualityLabel == null) {
     obj.qualityLabel = '';
@@ -39,7 +41,7 @@ async function filter(i, obj, output) {
   }
   if (obj.quality !== 'tiny') {
     output[i] = {};
-    output[i].text = `${obj.quality}:${addInfo} ${obj.qualityLabel} ${obj.container} ${endInfo}`;
+    output[i].text = `${addInfo} ${obj.qualityLabel} ${obj.container} ${endInfo}`;
     output[i].url = obj.url;
   }
   return output;
