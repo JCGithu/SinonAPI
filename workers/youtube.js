@@ -25,11 +25,9 @@ async function filter(i, obj, output) {
   }
   if (!obj.hasAudio) {
     addInfo = ' (Only video)';
-    output[i].onlyVideo = true;
   }
   if (!obj.hasVideo) {
     addInfo = ' (Only audio)';
-    output[i].onlyAudio = true;
   }
   if (obj.qualityLabel == null) {
     obj.qualityLabel = '';
