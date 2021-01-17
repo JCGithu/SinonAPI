@@ -40,11 +40,11 @@ app.get('/periscope/:token', cors(corsOptions), async (req, res) => {
     })
     .then((json) => {
       console.log(json);
-      if (json.hls_url) {
-        return { text: 'Live URL', url: json.hls_url };
-      } else {
-        return { text: 'Replay URL', url: json.replay_url };
+      let output = { text: 'Live URL', url: json.hls_url };
+      if (json.replay_url) {
+        output = { text: 'Replay URL', url: json.replay_url };
       }
+      return { output };
     });
   res.json(HLS);
 });
@@ -59,7 +59,8 @@ app.get('/parliament/:token', cors(corsOptions), async (req, res) => {
     .then((text) => {
       var regex = /[0-9A-Za-z\/\.\-\:]+.m3u8/g;
       var livestreamURL = text.match(regex)[0];
-      return { text: 'Livestream URL', url: livestreamURL };
+      let output = { text: 'Livestream URL', url: livestreamURL };
+      return { output };
     });
   res.json(HLS);
 });
