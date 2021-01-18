@@ -23,10 +23,6 @@ async function gate(obj) {
 
 async function filter(i, obj, output) {
   output[i] = {};
-  if (obj.isLive) {
-    obj.quality = 'livestream';
-    output[i].live = true;
-  }
   if (!obj.hasAudio) {
     addInfo = ' (Only video)';
     output[i].onlyVideo = true;
@@ -46,24 +42,29 @@ async function filter(i, obj, output) {
   } else {
     endInfo = `// ${obj.fps}p`;
   }
-  output[i].text = `${addInfo} ${obj.qualityLabel} ${obj.container} ${endInfo}`;
+  if (obj.isLive) {
+    output[i].live = true;
+    output[i].text = `Live: ${obj.qualityLabel}`;
+  } else {
+    output[i].text = `${addInfo} ${obj.qualityLabel} ${obj.container} ${endInfo}`;
+  }
   output[i].url = obj.url;
+  console.log(output[i]);
   return output;
 }
 
 async function yt(ytURL) {
   let info = await ytdl.getInfo(ytURL);
-  let output = {};
+  let output = {},
+    fullOutput = {};
   for (const format in info.formats) {
     var obj = info.formats[format];
     let objGate = await gate(obj);
     if (objGate) {
-      let fullOutput = await filter(format, obj, output);
-      console.log(format);
-      console.log(info.formats.length);
-      if (format == info.formats.length - 1) {
-        return fullOutput;
-      }
+      fullOutput = await filter(format, obj, output);
+    }
+    if (format == info.formats.length - 1) {
+      return fullOutput;
     }
   }
 }
